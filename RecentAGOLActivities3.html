@@ -4,12 +4,12 @@
   <head>
     <meta charset="utf-8" />
     <title>Newest USAID GIS Projects</title>
-    <link rel="stylesheet" href="http://js.arcgis.com/3.15/dojo/resources/dojo.css">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.15/dgrid/css/dgrid.css">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.15/dgrid/css/skins/claro.css">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.15/dijit/themes/claro/claro.css">
-    <link rel="stylesheet" href="http://js.arcgis.com/3.15/esri/css/esri.css">
-    <link rel="stylesheet" href="http://developers.arcgis.com/javascript/samples/portal_getgroupamd/css/layout.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/dojo/resources/dojo.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/dgrid/css/dgrid.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/dgrid/css/skins/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/esri/css/esri.css">
+    <link rel="stylesheet" href="https://developers.arcgis.com/javascript/samples/portal_getgroupamd/css/layout.css">
 
 <style>
 a:link {
@@ -32,7 +32,7 @@ a:active {
       //are not automatically loaded.
       var dojoConfig = { async: true };
     </script>
-    <script src="http://js.arcgis.com/3.15/"></script>
+    <script src="https://js.arcgis.com/3.15/"></script>
     <script>
     //require function accepts an array of module ids and a function. The modules are provided as return variables passed as arguments to the function. This replaces the dojo.requires statements.
       require([
@@ -74,7 +74,7 @@ a:active {
         ready(function() {
           parser.parse(); //replaces parseOnLoad = true in dojoConfig
 
-          config.defaults.io.proxyUrl = 'http://developers.arcgis.com/javascript/samples/proxy/proxy.ashx';
+          config.defaults.io.proxyUrl = 'https://developers.arcgis.com/javascript/samples/proxy/proxy.ashx';
           portalUrl = document.location.protocol + '//www.arcgis.com';
 
           //create the portal
@@ -117,7 +117,7 @@ a:active {
 				  'type': group.type,
 				  'created':group.created,
                   'url': group.url,
-                  'thumbnail': group.thumbnailUrl || 'http://cdn.arcgis.com/cdn/7674/js/jsapi/esri/css/images/item_type_icons/apps16.png',
+                  'thumbnail': group.thumbnailUrl || 'https://cdn.arcgis.com/cdn/7674/js/jsapi/esri/css/images/item_type_icons/apps16.png',
                   'id': group.id,
                   'owner': group.owner
                 };
@@ -148,9 +148,9 @@ a:active {
 
             //obj.url = portalUrl + '/apps/MapJournal/?appid=' + obj.id;
 			if(obj.type == "PDF" || obj.type == "Image"){
-			obj.url = "http://usaid.maps.arcgis.com/sharing/rest/content/items/"+obj.id+"/data"; 
+			obj.url = "https://usaid.maps.arcgis.com/sharing/rest/content/items/"+obj.id+"/data"; 
 			}
-            //http://usaid.maps.arcgis.com/apps/MapJournal/?appid=7d94bc889b3c4ff5bc892de734498dd0
+            //https://usaid.maps.arcgis.com/apps/MapJournal/?appid=7d94bc889b3c4ff5bc892de734498dd0
             //obj.thumbnail = obj.thumbnail || '';
 
             //domConstruct.create is a replacement for dojo.create
