@@ -1,4 +1,3 @@
-
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -24,6 +23,68 @@ a:hover {
 a:active {
     color: #002A6C;
 }
+.HighlightBox 
+{ 
+position: relative; 
+float: left;
+margin-top: 15px;
+margin-bottom: 15px;
+margin-right: 15px;
+margin-left: 15px;
+width:240px;height:170px; 
+padding-left:15px;
+padding-top:15px;
+border: solid 1px #555; 
+background-color: #ebebeb; 
+box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-moz-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-o-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+border-radius:5px;
+} 
+.HighlightBox:hover{
+background-color: #ffffff; 
+}
+.ClickButton 
+{ 
+position: absolute; 
+bottom: 0px; 
+left: 95px;
+margin-bottom: 5px;
+padding: 5px 5px 0px 5px;
+width:50px;height:25px; 
+background-color: #1f3d7a;
+color: #ffffff; 
+box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-moz-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-o-box-shadow: 0 0 10px rgba(0,0,0,0.6);
+border-radius:4px;
+} 
+.MapTitle
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+    padding-top: 0px;
+	color: #313131;
+}
+.MapTitleTop
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+    padding-top: 0px;
+	font-weight: bold;
+	color: #212121;
+}
+.MapDesc
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+    margin-top: 7px;
+	margin-right: 5px; 
+	color: #212121;
+}
+
 </style>
 	
     <script>
@@ -35,7 +96,10 @@ a:active {
     <script src="https://js.arcgis.com/3.15/"></script>
     <script>
     //require function accepts an array of module ids and a function. The modules are provided as return variables passed as arguments to the function. This replaces the dojo.requires statements.
-      require([
+      var ContentArray = [];
+	  renderCount = 0;
+	  
+	  require([
         "dojo/parser", 
         "dojo/ready", 
         "dojo/dom", 
@@ -69,6 +133,7 @@ a:active {
         var orgCode = "Djjoop3BmZekEtDo";
         var progtype = '("Web Mapping Application" OR "PDF" OR "IMAGE")';
         var sharing = "public";
+		 
 
         //Replaces dojo.ready / dojo.addOnLoad
         ready(function() {
@@ -89,10 +154,10 @@ a:active {
         function findArcGISGroup() {
           //var keyword = dom.byId('groupFinder').value;
           var params = {
-			q:  'orgid: ' + orgCode + ' AND type:' + progtype + ' AND access:' + sharing,
+			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote AND access:' + sharing,
             sortField:'uploaded',
             sortOrder:'desc',
-            num:15 //find 20 items - max is 100
+            num:25 //find 20 items - max is 100
           };
           portal.queryItems(params).then(function (data) {
             showGroupResults(data);
@@ -104,9 +169,7 @@ a:active {
         function showGroupResults(response) {
           //clear any existing results
           var data = [];
-            if (groupGrid) {
-              groupGrid.refresh();
-            }
+
             if (response.total > 0) {
 			//alert(response.total); 
               //create an array of attributes for each group - we'll display these in a dojo dgrid
@@ -122,44 +185,58 @@ a:active {
                   'owner': group.owner
                 };
               });
-              //create the grid
-              groupGrid = new Grid({
-                columns: {
-                  thumbnail: 'Group Icon',
-				  type: 'type',
-                  title: 'Group',
-                  snippet: 'Description',
-                  id: 'Group ID'
-                },
-                renderRow: renderTable,
-                //this function renders the table in a non-grid looking view
-                showHeader: false
-              }, "grid");
-              groupGrid.renderArray(data);
-
-            } else {
-              dom.byId('groupResults').innerHTML = '<h2>Group Results</h2><p>No groups were found. If the group is not public use the sign-in link to sign in and find private groups.</p>';
+				for (i = 0; i < data.length; i++) {
+				renderTable(data[i]); 
+				}
+				
+			  }
+               else {
+              dom.byId('carea').innerHTML = '<h2>Oops! No Maps Found.</h2><p>I\'m sorry, an error occured and no maps were found. Let us know and we will try to fix this error. Thanks! </p>';
             }
           }
 
+		  	
+		  
+			
           function renderTable(obj, options) {
-
-            var template = '<a target="_blank" class="title" href=${url}>${title}</a><br><span class="owner">${type} by ${owner} <br> ${created} </span><div class="summary">${snippet} </div><hr>';
-
-            //obj.url = portalUrl + '/apps/MapJournal/?appid=' + obj.id;
+		  
+		     //obj.url = portalUrl + '/apps/MapJournal/?appid=' + obj.id;
 			if(obj.type == "PDF" || obj.type == "Image"){
 			obj.url = "https://usaid.maps.arcgis.com/sharing/rest/content/items/"+obj.id+"/data"; 
 			}
+			
+			
+		  var theTitle; 
+			if (obj.title.length>25){
+			theTitle = obj.title.substring(0, 23)+"...";
+			}
+			else{
+			theTitle = obj.title;
+			}
+			
+            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" width="220"><br><span class="MapTitle">'+theTitle+'</span></div>';
+			renderCount = renderCount + 2; 
+			
+			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" width="220"><br><span class="MapTitle">'+theTitle+'</span>')); 
+			ContentArray.push(esriLang.substitute(obj,'<span class="MapTitleTop">${title}</span><br><p class="MapDesc">${snippet}</p><div onclick="window.open(\''+obj.url+'\');" class="ClickButton">See Map</div>'));
+
+			
+         
             //https://usaid.maps.arcgis.com/apps/MapJournal/?appid=7d94bc889b3c4ff5bc892de734498dd0
             //obj.thumbnail = obj.thumbnail || '';
 
             //domConstruct.create is a replacement for dojo.create
-            return div = domConstruct.create("div",{
-              innerHTML : esriLang.substitute(obj,template)
-            });
+            //return div = domConstruct.create("div",{
+              //innerHTML : esriLang.substitute(obj,template)
+            //});
+			var ndiv = domConstruct.toDom(esriLang.substitute(obj,template));
+			domConstruct.place(ndiv, "carea");
+			
 
           }
 
+
+		  
           // gets private groups as well
           function signIn() {
             var signInLink = dom.byId('signIn');
@@ -179,20 +256,19 @@ a:active {
             }
           }
       });
+
+	  
     </script>
   </head>
 
   <body class="claro">
-    <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline',gutters:false"
-    style="width:100%;height:100%;margin:0;">
-      <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
-        <h1>Newest USAID GIS Projects</h1>
+    
         
-      </div>
-      <div id='gridpane' data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
-        <div id='grid'></div>
-        <div id="groupResults"></div>
-      </div>
-    </div>
+        
+
+	  <div id="carea"></div>
+	  
+      
+
   </body>
 </html>
