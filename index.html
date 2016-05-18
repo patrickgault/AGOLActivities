@@ -157,7 +157,7 @@ border-radius:4px;
 			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote AND access:' + sharing,
             sortField:'uploaded',
             sortOrder:'desc',
-            num:25 //find 20 items - max is 100
+            num:75 //find 20 items - max is 100
           };
           portal.queryItems(params).then(function (data) {
             showGroupResults(data);
