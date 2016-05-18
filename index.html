@@ -214,10 +214,10 @@ border-radius:4px;
 			theTitle = obj.title;
 			}
 			
-            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" width="220" height="133"><br><span class="MapTitle">'+theTitle+'</span></div>';
+            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" height="133"><br><span class="MapTitle">'+theTitle+'</span></div>';
 			renderCount = renderCount + 2; 
 			
-			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" width="220" height="133"><br><span class="MapTitle">'+theTitle+'</span>')); 
+			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" height="133"><br><span class="MapTitle">'+theTitle+'</span>')); 
 			ContentArray.push(esriLang.substitute(obj,'<span class="MapTitleTop">${title}</span><br><p class="MapDesc">${snippet}</p><div onclick="window.open(\''+obj.url+'\');" class="ClickButton">See Map</div>'));
 
 			
