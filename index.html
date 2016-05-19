@@ -155,7 +155,7 @@ border-radius:4px;
           //var keyword = dom.byId('groupFinder').value;
           var params = {
 			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote AND access:' + sharing,
-            sortField:'uploaded',
+            sortField:'avgRating,uploaded',
             sortOrder:'desc',
             num:75 //find 20 items - max is 100
           };
@@ -261,7 +261,7 @@ border-radius:4px;
     </script>
   </head>
 
-  <body class="claro">
+  <body class="claro" style="overflow: auto">
     
         
         
