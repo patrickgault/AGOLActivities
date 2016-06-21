@@ -154,7 +154,7 @@ border-radius:4px;
         function findArcGISGroup() {
           //var keyword = dom.byId('groupFinder').value;
           var params = {
-			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote AND access:' + sharing,
+			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote, Guatemala AND access:' + sharing,
             sortField:'avgRating,uploaded',
             sortOrder:'desc',
             num:75 //find 20 items - max is 100
@@ -214,7 +214,7 @@ border-radius:4px;
 			theTitle = obj.title;
 			}
 			
-            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" width="220px" height="160px"><br><span class="MapTitle">'+theTitle+'</span></div>';
+            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" width="220px" height="150px"><br><span class="MapTitle">'+theTitle+'</span></div>';
 			renderCount = renderCount + 2; 
 			
 			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" width="220px" height="145px"><br><span class="MapTitle">'+theTitle+'</span>')); 
