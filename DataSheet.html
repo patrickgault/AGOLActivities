@@ -155,8 +155,8 @@ border-radius:4px;
           //var keyword = dom.byId('groupFinder').value;
           var params = {
 			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote, Data Sheet AND access:' + sharing,
-            sortField:'avgRating,uploaded',
-            sortOrder:'desc',
+            sortField: "value", 'title',
+            sortOrder:'asc',
             num:75 //find 20 items - max is 100
           };
           portal.queryItems(params).then(function (data) {
