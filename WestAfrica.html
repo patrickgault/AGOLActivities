@@ -156,7 +156,7 @@ border-radius:4px;
           var params = {
 			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote, Health, West Africa, AND access:' + sharing,
             sortField: 'uploaded',
-            sortOrder:'desc',
+            sortOrder:'asc',
             num:75 //find 20 items - max is 100
           };
           portal.queryItems(params).then(function (data) {
