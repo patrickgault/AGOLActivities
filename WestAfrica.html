@@ -1,0 +1,274 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Newest USAID GIS Projects</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/dojo/resources/dojo.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/dgrid/css/dgrid.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/dgrid/css/skins/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.15/esri/css/esri.css">
+    <link rel="stylesheet" href="https://developers.arcgis.com/javascript/samples/portal_getgroupamd/css/layout.css">
+
+<style>
+a:link {
+    color: #002A6C;
+}
+a:visited {
+    color: #002A6C;
+}
+a:hover {
+    color: #C2113A;
+}
+a:active {
+    color: #002A6C;
+}
+.HighlightBox 
+{ 
+position: relative; 
+float: left;
+margin-top: 15px;
+margin-bottom: 15px;
+margin-right: 15px;
+margin-left: 15px;
+width:240px;height:200px; 
+padding-left:15px;
+padding-top:15px;
+border: solid 1px #555; 
+background-color: #ebebeb; 
+box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-moz-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-o-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+border-radius:5px;
+} 
+.HighlightBox:hover{
+background-color: #ffffff; 
+}
+.ClickButton 
+{ 
+position: absolute; 
+bottom: 0px; 
+left: 110px;
+margin-bottom: 5px;
+padding: 5px 5px 5px 5px;
+width:25px;height:15px; 
+background-color: #1f3d7a;
+color: #ffffff; 
+box-shadow: 0 0 5px rgba(0,0,0,0.6); 
+-moz-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-webkit-box-shadow: 0 0 10px rgba(0,0,0,0.6); 
+-o-box-shadow: 0 0 10px rgba(0,0,0,0.6);
+border-radius:4px;
+} 
+.MapTitle
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+    padding-top: 5px;
+	color: #313131;
+}
+.MapTitleTop
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+    padding-top: 0px;
+	font-weight: bold;
+	color: #212121;
+}
+.MapDesc
+{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+    margin-top: 7px;
+	margin-right: 5px; 
+	color: #212121;
+}
+
+</style>
+	
+    <script>
+      //async is a new dojoConfig option. The default value of false will load all the Dojo base modules
+      //here we set it to true to take advantage of the asynchronous nature of dojo and the the base modules
+      //are not automatically loaded.
+      var dojoConfig = { async: true };
+    </script>
+    <script src="https://js.arcgis.com/3.15/"></script>
+    <script>
+    //require function accepts an array of module ids and a function. The modules are provided as return variables passed as arguments to the function. This replaces the dojo.requires statements.
+      var ContentArray = [];
+	  renderCount = 0;
+	  
+	  require([
+        "dojo/parser", 
+        "dojo/ready", 
+        "dojo/dom", 
+        "dojo/dom-construct", 
+        "dojo/_base/array", 
+        "dijit/registry", 
+        "dojo/on", 
+        "esri/arcgis/Portal", 
+        "esri/config",
+        "esri/lang",
+        "dgrid/Grid", 
+        "dijit/layout/BorderContainer", 
+        "dijit/layout/ContentPane" 
+      ],function(
+        parser, 
+        ready, 
+        dom, 
+        domConstruct, 
+        array, 
+        registry, 
+        on, 
+        arcgisPortal,
+        config, 
+        esriLang,
+        Grid
+      ) {
+        var portal, portalUrl, groupGrid;
+        
+        
+        
+        var orgCode = "Djjoop3BmZekEtDo";
+        var progtype = '("Web Mapping Application" OR "PDF" OR "IMAGE")';
+        var sharing = "public";
+		 
+
+        //Replaces dojo.ready / dojo.addOnLoad
+        ready(function() {
+          parser.parse(); //replaces parseOnLoad = true in dojoConfig
+
+          config.defaults.io.proxyUrl = 'https://developers.arcgis.com/javascript/samples/proxy/proxy.ashx';
+          portalUrl = document.location.protocol + '//www.arcgis.com';
+
+          //create the portal
+          portal = new arcgisPortal.Portal(portalUrl);
+
+          on(portal, 'load', function(p) {
+                findArcGISGroup();
+          });
+        });
+
+        // find groups based on input keyword
+        function findArcGISGroup() {
+          //var keyword = dom.byId('groupFinder').value;
+          var params = {
+			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote, Health, West Africa AND access:' + sharing,
+            sortField:'avgRating,uploaded',
+            sortOrder:'desc',
+            num:75 //find 20 items - max is 100
+          };
+          portal.queryItems(params).then(function (data) {
+            showGroupResults(data);
+          });
+        }
+
+
+        //display a list of groups that match the input user name
+        function showGroupResults(response) {
+          //clear any existing results
+          var data = [];
+
+            if (response.total > 0) {
+			//alert(response.total); 
+              //create an array of attributes for each group - we'll display these in a dojo dgrid
+              data = array.map(response.results, function (group) {
+                return {
+                  'snippet': group.snippet,
+                  'title': group.title,
+				  'type': group.type,
+				  'created':group.created,
+                  'url': group.url,
+                  'thumbnail': group.thumbnailUrl || 'https://cdn.arcgis.com/cdn/7674/js/jsapi/esri/css/images/item_type_icons/apps16.png',
+                  'id': group.id,
+                  'owner': group.owner
+                };
+              });
+				for (i = 0; i < data.length; i++) {
+				renderTable(data[i]); 
+				}
+				
+			  }
+               else {
+              dom.byId('carea').innerHTML = '<h2>Oops! No Maps Found.</h2><p>I\'m sorry, an error occured and no maps were found. Let us know and we will try to fix this error. Thanks! </p>';
+            }
+          }
+
+		  	
+		  
+			
+          function renderTable(obj, options) {
+		  
+		     //obj.url = portalUrl + '/apps/MapJournal/?appid=' + obj.id;
+			if(obj.type == "PDF" || obj.type == "Image"){
+			obj.url = "https://usaid.maps.arcgis.com/sharing/rest/content/items/"+obj.id+"/data"; 
+			}
+			
+			
+		  var theTitle; 
+			if (obj.title.length>25){
+			theTitle = obj.title.substring(0, 160)
+			}
+			else{
+			theTitle = obj.title;
+			}
+			
+            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" width="220px" height="150px"><br><span class="MapTitle">'+theTitle+'</span></div>';
+			renderCount = renderCount + 2; 
+			
+			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" width="220px" height="145px"><br><span class="MapTitle">'+theTitle+'</span>')); 
+			ContentArray.push(esriLang.substitute(obj,'<span class="MapTitleTop">${title}</span><br><p class="MapDesc">${snippet}</p><div onclick="window.open(\''+obj.url+'\');" class="ClickButton">View</div>'));
+
+			
+         
+            //https://usaid.maps.arcgis.com/apps/MapJournal/?appid=7d94bc889b3c4ff5bc892de734498dd0
+            //obj.thumbnail = obj.thumbnail || '';
+
+            //domConstruct.create is a replacement for dojo.create
+            //return div = domConstruct.create("div",{
+              //innerHTML : esriLang.substitute(obj,template)
+            //});
+			var ndiv = domConstruct.toDom(esriLang.substitute(obj,template));
+			domConstruct.place(ndiv, "carea");
+			
+
+          }
+
+
+		  
+          // gets private groups as well
+          function signIn() {
+            var signInLink = dom.byId('signIn');
+
+            if (signInLink.innerHTML.indexOf('In') !== -1) {
+                portal.signIn().then(function (loggedInUser) {
+                    signInLink.innerHTML = "Sign Out";
+                    findArcGISGroup();   // update results
+                }, function (error) {
+                  signInLink.innerHTML = 'Sign In';   //error so reset sign in link
+                });
+            } else {
+              portal.signOut().then(function (portalInfo) {
+                signInLink.innerHTML = "Sign In";
+                findArcGISGroup();
+              });
+            }
+          }
+      });
+
+	  
+    </script>
+  </head>
+
+  <body class="claro" style="overflow: auto">
+    
+        
+        
+
+	  <div id="carea"></div>
+	  
+      
+
+  </body>
+</html>
