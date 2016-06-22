@@ -155,8 +155,8 @@ border-radius:4px;
           //var keyword = dom.byId('groupFinder').value;
           var params = {
 			q:  'orgid: ' + orgCode + ' AND type:' + progtype + 'AND tags: promote, Health Economics AND access:' + sharing,
-            sortField:'title',
-            sortOrder:'asc',
+            sortField:'avgRating,uploaded',
+            sortOrder:'desc',
             num:75 //find 20 items - max is 100
           };
           portal.queryItems(params).then(function (data) {
