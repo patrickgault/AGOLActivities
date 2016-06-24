@@ -215,7 +215,7 @@ cursor: pointer;
 			theTitle = obj.title;
 			}
 			
-            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" style="margin-bottom:5px" width="440px" height="290px"><br><span class="MapTitle">'+theTitle+'</span></div>';
+            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" style="margin-bottom:5px" width="440px" height="290px" margin="0 auto"><br><span class="MapTitle">'+theTitle+'</span></div>';
 			renderCount = renderCount + 2; 
 			
 			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" style="margin-bottom:5px" width="440px" height="290px"><br><span class="MapTitle">'+theTitle+'</span>')); 
