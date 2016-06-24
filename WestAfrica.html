@@ -32,7 +32,7 @@ margin-bottom: 15px;
 margin-right: 15px;
 margin-left: 15px;
 width:480px;
-height:350px; 
+height:340px; 
 padding-left:15px;
 padding-top:15px;
 padding-right:15px;
@@ -217,10 +217,10 @@ cursor: pointer;
 			theTitle = obj.title;
 			}
 			
-            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" style="margin-bottom:10px; width:100%; height:290px;"><br><span class="MapTitle">'+theTitle+'</span></div>';
+            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" style="margin-bottom:8px; width:100%; height:290px;"><br><span class="MapTitle">'+theTitle+'</span></div>';
 			renderCount = renderCount + 2; 
 			
-			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" style="margin-bottom:10px; width:100%; height:290px;"><br><span class="MapTitle">'+theTitle+'</span>')); 
+			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" style="margin-bottom:8px; width:100%; height:290px;"><br><span class="MapTitle">'+theTitle+'</span>')); 
 			ContentArray.push(esriLang.substitute(obj,'<span class="MapTitleTop">${title}</span><br><p class="MapDesc">${snippet}</p><div onclick="window.open(\''+obj.url+'\');" class="ClickButton">View</div>'));
 
 			
