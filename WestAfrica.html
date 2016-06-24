@@ -34,6 +34,7 @@ margin-left: 15px;
 width:480px;height:400px; 
 padding-left:15px;
 padding-top:15px;
+padding-right:15px;
 border: solid 1px #555; 
 background-color: #ebebeb; 
 box-shadow: 0 0 10px rgba(0,0,0,0.6); 
@@ -215,7 +216,7 @@ cursor: pointer;
 			theTitle = obj.title;
 			}
 			
-            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" style="margin-bottom:5px; width:calc(100% - 30px); height:290px; display:inline-block; margin:0 auto;"><br><span class="MapTitle">'+theTitle+'</span></div>';
+            var template = '<div onmouseenter="this.innerHTML=ContentArray['+(renderCount+1)+']" onmouseleave="this.innerHTML=ContentArray['+renderCount+']" class="HighlightBox"><img src="${thumbnail}" style="margin-bottom:5px; width:100%; height:290px; display:inline-block; margin:0 auto;"><br><span class="MapTitle">'+theTitle+'</span></div>';
 			renderCount = renderCount + 2; 
 			
 			ContentArray.push(esriLang.substitute(obj,'<img src="${thumbnail}" style="margin-bottom:5px" width="440px" height="290px"><br><span class="MapTitle">'+theTitle+'</span>')); 
